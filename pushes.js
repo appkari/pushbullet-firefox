@@ -313,7 +313,7 @@ var updateNotifications = function(groups) {
 
                             setTimeout(function() {
                                 pb.notifier.dismiss(undo.key)
-                            }, 5000)
+                            }, 15000)
                         }
                     })
                 }

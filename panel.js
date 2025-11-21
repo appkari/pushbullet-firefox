@@ -78,6 +78,16 @@ var setUp = function() {
     }
 
     if (!pb.local.user) {
+        // Check if user has signed in via website
+        chrome.runtime.sendMessage({ type: 'checkCookie' }, function(response) {
+            if (response && response.success) {
+                console.log('Found cookie after sign-in, reloading panel...')
+                // Wait a moment for background to reload, then refresh panel
+                setTimeout(function() {
+                    window.location.reload()
+                }, 1000)
+            }
+        })
         return
     }
 

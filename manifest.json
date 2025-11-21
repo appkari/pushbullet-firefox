@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Pushbullet",
   "version": "366",
   "author": "Pushbullet",
@@ -11,24 +11,27 @@
     "128": "icon_128.png"
   },
   "homepage_url": "https://www.pushbullet.com",
-  "minimum_chrome_version": "31",
   "permissions": [
     "activeTab",
     "contextMenus",
     "cookies",
     "notifications",
     "idle",
+    "storage"
+  ],
+  "host_permissions": [
     "https://*.pushbullet.com/*",
     "http://*.pushbullet.com/*",
     "http://localhost:20807/*"
   ],
   "optional_permissions": [
-    "background",
-    "tabs",
+    "tabs"
+  ],
+  "optional_host_permissions": [
     "https://*/*",
     "http://*/*"
   ],
-  "browser_action": {
+  "action": {
     "default_icon": {
       "19": "icon_19.png",
       "38": "icon_38.png"
@@ -63,9 +66,9 @@
       "log-request.js",
       "pong.js",
       "keyboard-shortcuts.js",
-      "main.js"
-    ],
-    "persistent": true
+      "main.js",
+      "background-wrapper.js"
+    ]
   },
   "commands": {
     "dismiss-most-recent-notification": {
@@ -91,7 +94,10 @@
     }
   },
   "web_accessible_resources": [
-    "*.png"
+    {
+      "resources": ["*.png"],
+      "matches": ["<all_urls>"]
+    }
   ],
   "browser_specific_settings": {
     "gecko": {

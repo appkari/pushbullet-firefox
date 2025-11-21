@@ -85,6 +85,11 @@ var notify = function(options) {
         spec.isClickable = true
     }
 
+    // Keep notification visible longer by requiring interaction
+    // This prevents auto-dismiss on most platforms
+    // Note: Firefox may ignore this, but we'll try anyway
+    spec.requireInteraction = true
+
     if (options.buttons) {
         if (options.buttons.length > 2) {
             var buttons = options.buttons
@@ -153,6 +158,13 @@ var notify = function(options) {
             if (pb.settings.playSound) {
                 pb.alertSound.play()
             }
+            
+            // Auto-dismiss after specified duration if requireInteraction is not supported
+            if (pb.browser === 'firefox' && options.key !== 'update') {
+                setTimeout(function() {
+                    chrome.notifications.clear(options.key, function() {})
+                }, timeOnScreen(options))
+            }
         }
 
         var createNotification = function() {
@@ -175,7 +187,7 @@ var notify = function(options) {
 }
 
 var timeOnScreen = function(options) {
-    return options.priority && options.priority > 0 ? 25 * 1000 : 8 * 1000
+    return options.priority && options.priority > 0 ? 25 * 1000 : 15 * 1000
 }
 
 pb.notifier.dismiss = function(key) {

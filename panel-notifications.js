@@ -52,7 +52,7 @@ var updateNotifications = function() {
 }
 
 var clearNotification = function(options) {
-    chrome.extension.getBackgroundPage().chrome.notifications.clear(options.key, function(wasCleared) {
+    chrome.notifications.clear(options.key, function(wasCleared) {
         delete pb.notifier.active[options.key]
         pb.dispatchEvent('notifications_changed')
         if (options.onclose) {

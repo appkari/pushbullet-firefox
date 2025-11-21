@@ -63,21 +63,23 @@ pb.isSnoozed = function() {
 }
 
 pb.updateIcon = function() {
+    var action = chrome.action || chrome.browserAction
+    
     if (!localStorage.apiKey) {
-        chrome.browserAction.setBadgeBackgroundColor({ 'color': '#e85845' })
-        chrome.browserAction.setBadgeText({ 'text': '1' })
+        action.setBadgeBackgroundColor({ 'color': '#e85845' })
+        action.setBadgeText({ 'text': '1' })
         return
     }
 
     if (pb.settings.useDarkIcon) {
-        chrome.browserAction.setIcon({
+        action.setIcon({
             'path': {
                 '19': 'icon_19_gray.png',
                 '38': 'icon_38_gray.png'
             }
         })
     } else {
-        chrome.browserAction.setIcon({
+        action.setIcon({
             'path': {
                 '19': 'icon_19.png',
                 '38': 'icon_38.png'
@@ -86,23 +88,23 @@ pb.updateIcon = function() {
     }
 
     if (pb.isSnoozed()) {
-        chrome.browserAction.setBadgeText({ 'text': 'zzz' })
+        action.setBadgeText({ 'text': 'zzz' })
 
         if (pb.settings.useDarkIcon) {
-            chrome.browserAction.setBadgeBackgroundColor({ 'color': '#76c064' })
+            action.setBadgeBackgroundColor({ 'color': '#76c064' })
         } else {
-            chrome.browserAction.setBadgeBackgroundColor({ 'color': '#4a4a4a' })
+            action.setBadgeBackgroundColor({ 'color': '#4a4a4a' })
         }
     } else {
         var notificationCount = Object.keys(pb.notifier.active).length
-        chrome.browserAction.setBadgeText({
+        action.setBadgeText({
             'text': (notificationCount > 0 && pb.settings.showNotificationCount) ? '' + notificationCount : ''
         })
 
         if (pb.settings.useDarkIcon) {
-            chrome.browserAction.setBadgeBackgroundColor({ 'color': '#4ab367' })
+            action.setBadgeBackgroundColor({ 'color': '#4ab367' })
         } else {
-            chrome.browserAction.setBadgeBackgroundColor({ 'color': '#e85845' })
+            action.setBadgeBackgroundColor({ 'color': '#e85845' })
         }
     }
 }
