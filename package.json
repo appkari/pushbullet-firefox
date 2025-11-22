@@ -3,6 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "xpi": "pnpm dlx web-ext build --source-dir . --artifacts-dir dist --overwrite-dest --ignore-files META-INF .git .vscode dist node_modules .DS_Store && sh -c 'set -e; f=$(ls -1 dist/*.zip | tail -n1); mv \"$f\" \"${f%.zip}.xpi\"'"
+    "xpi": "pnpm dlx web-ext build --source-dir src --artifacts-dir dist --overwrite-dest --ignore-files META-INF .DS_Store && sh -c 'set -e; f=$(ls -1 dist/*.zip | tail -n1); mv \"$f\" \"${f%.zip}.xpi\"'"
   }
 }

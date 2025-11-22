@@ -117,14 +117,8 @@ jobs:
           # Create a clean build directory
           mkdir -p build
           
-          # Copy all necessary files (exclude git, github, and other dev files)
-          rsync -av --exclude='.git' \
-                    --exclude='.github' \
-                    --exclude='build' \
-                    --exclude='*.md' \
-                    --exclude='.DS_Store' \
-                    --exclude='node_modules' \
-                    . build/
+          # Copy only the contents of src folder to build root
+          rsync -av --exclude='.DS_Store' src/ build/
           
           # Create XPI (which is just a ZIP file)
           cd build
@@ -133,6 +127,10 @@ jobs:
           
           # Verify the XPI was created
           ls -lh pushbullet-enhanced-v${{ steps.release_version.outputs.version }}.xpi
+          
+          # Show structure of XPI
+          echo "XPI contents:"
+          unzip -l pushbullet-enhanced-v${{ steps.release_version.outputs.version }}.xpi | head -20
       
       - name: Generate changelog
         id: changelog
