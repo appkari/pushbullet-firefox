@@ -2,6 +2,8 @@
 
 This is a **modified fork** of the [official Pushbullet Firefox Addon](https://addons.mozilla.org/en-US/firefox/addon/pushbullet) with custom enhancements and fixes specifically for Firefox.
 
+> **⚠️ Quick Start**: This is an unsigned extension. You need **Firefox Developer Edition**, **Firefox Nightly**, or **Zen Browser** to install it permanently. See [Installation](#installation) for details.
+
 ## About This Fork
 
 This fork maintains the core Pushbullet functionality while adding several improvements and fixes for a better Firefox experience.
@@ -41,17 +43,85 @@ This fork maintains the core Pushbullet functionality while adding several impro
 
 ## Installation
 
-### From Release (Recommended)
-1. Go to the [Releases page](../../releases)
-2. Download the latest `pushbullet-enhanced-vX.X.X.xpi` file
-3. Open Firefox and drag the XPI file into the browser
-4. Click "Add" when prompted
+### ⚠️ Important: Unsigned Extension
 
-### From Source
-1. Clone this repository
-2. Open Firefox and navigate to `about:debugging`
-3. Click "This Firefox" → "Load Temporary Add-on"
-4. Select the `manifest.json` file from this directory
+This is an **unsigned extension** and requires special installation steps. Regular Firefox won't allow unsigned extensions for security reasons.
+
+### Compatible Browsers
+
+✅ **Firefox Developer Edition** - Recommended  
+✅ **Firefox Nightly** - Works  
+✅ **Zen Browser** - Works (based on Firefox)  
+❌ **Firefox Release** - Won't work (requires signed extensions)
+
+### Installation Methods
+
+#### Method 1: Firefox Developer Edition / Nightly (Permanent)
+
+1. **Download Firefox Developer Edition**:
+   - Get it from: https://www.mozilla.org/firefox/developer/
+   - Or Firefox Nightly: https://www.mozilla.org/firefox/nightly/
+
+2. **Configure Firefox to allow unsigned extensions**:
+   - Open Firefox Developer/Nightly
+   - Type `about:config` in the address bar
+   - Search for `xpinstall.signatures.required`
+   - Set it to `false` (double-click to toggle)
+
+3. **Install the extension**:
+   - Go to the [Releases page](../../releases)
+   - Download the latest `pushbullet-enhanced-vX.X.X.xpi` file
+   - Drag and drop the XPI file into Firefox
+   - Click "Add" when prompted
+   - The extension will remain installed permanently
+
+#### Method 2: Zen Browser (Permanent)
+
+Zen Browser is based on Firefox and supports unsigned extensions:
+
+1. **Download Zen Browser**:
+   - Get it from: https://zen-browser.app/
+
+2. **Enable unsigned extensions**:
+   - Open Zen Browser
+   - Type `about:config` in the address bar
+   - Search for `xpinstall.signatures.required`
+   - Set it to `false`
+
+3. **Install the XPI**:
+   - Download from [Releases page](../../releases)
+   - Drag the XPI file into Zen Browser
+   - Click "Add" when prompted
+
+#### Method 3: Any Firefox (Temporary - For Testing)
+
+This method works on any Firefox version but the extension is removed when you close the browser:
+
+1. **Open Firefox** (any version)
+2. **Navigate to** `about:debugging`
+3. **Click** "This Firefox" → "Load Temporary Add-on"
+4. **Select** the downloaded XPI file or the `manifest.json` from source
+5. **Note**: Extension will be removed when Firefox closes
+
+#### Method 4: From Source (Development)
+
+For developers who want to modify the code:
+
+1. **Clone this repository**:
+   ```bash
+   git clone <repository-url>
+   cd pushbullet-enhanced
+   ```
+
+2. **Load in Firefox**:
+   - Open Firefox Developer Edition or Nightly
+   - Navigate to `about:debugging`
+   - Click "This Firefox" → "Load Temporary Add-on"
+   - Select the `manifest.json` file from the cloned directory
+
+3. **For permanent installation from source**:
+   - Package as XPI: `zip -r pushbullet-enhanced.xpi . -x "*.git*" -x "*.github*" -x "*.md"`
+   - Install the XPI using Method 1 or 2 above
 
 ### First-Time Setup
 1. Click the Pushbullet icon in your toolbar
@@ -108,25 +178,48 @@ Your API key is stored locally in the extension. To change accounts:
 
 ## Troubleshooting
 
+### Installation Issues
+
+#### "This add-on could not be installed because it has not been verified"
+- **Solution**: You're using regular Firefox. Use Firefox Developer Edition, Nightly, or Zen Browser instead
+- **Alternative**: Load as temporary add-on via `about:debugging` (removed on browser restart)
+
+#### Extension disappears after restarting browser
+- **Cause**: You loaded it as a temporary add-on
+- **Solution**: Use Firefox Developer/Nightly with `xpinstall.signatures.required` set to `false`
+
+#### Can't find `xpinstall.signatures.required` in about:config
+- **Cause**: You're using regular Firefox Release
+- **Solution**: This setting only works in Developer Edition, Nightly, or Zen Browser
+
+#### Extension installed but not working
+1. Check that you've entered a valid API key
+2. Open browser console (F12) and check for errors
+3. Try reloading the extension from `about:addons`
+
 ### Extension won't sign in
 1. Make sure you're using the correct Access Token from Pushbullet settings
 2. Check that the token hasn't expired
 3. Try signing out and signing in again
+4. Verify you have internet connectivity
 
 ### SMS not showing
 1. Ensure your Android device is connected to Pushbullet
 2. Check that SMS mirroring is enabled in the Pushbullet Android app
 3. Verify your device has an active internet connection
+4. Check that the Pushbullet Android app is up to date
 
 ### Dark mode not working
 1. Check extension options to see if dark mode is enabled
 2. Try toggling it off and on again
-3. Reload the extension
+3. Reload the extension from `about:addons`
+4. Check your system theme settings
 
 ### OTP not copying
 1. Click the notification when it appears
 2. The OTP should be copied to your clipboard automatically
 3. Try pasting with Cmd+V (Mac) or Ctrl+V
+4. Check browser console for clipboard permission errors
 
 ## Releases
 
