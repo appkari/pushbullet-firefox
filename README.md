@@ -117,10 +117,21 @@ For developers who want to modify the code:
    - Open Firefox Developer Edition or Nightly
    - Navigate to `about:debugging`
    - Click "This Firefox" → "Load Temporary Add-on"
-   - Select the `manifest.json` file from the cloned directory
+   - **Important**: Navigate to the `src/` folder and select `manifest.json` from there
+   - (Not from the repository root!)
 
-3. **For permanent installation from source**:
-   - Package as XPI: `zip -r pushbullet-enhanced.xpi . -x "*.git*" -x "*.github*" -x "*.md"`
+3. **Or use web-ext for development**:
+   ```bash
+   pnpm run dev
+   # or
+   npm run dev
+   ```
+
+4. **For permanent installation from source**:
+   ```bash
+   pnpm run xpi
+   # Creates pushbullet-enhanced.xpi in dist/ folder
+   ```
    - Install the XPI using Method 1 or 2 above
 
 ### First-Time Setup
@@ -235,13 +246,47 @@ This project follows [Semantic Versioning](https://semver.org/):
 
 ## Development
 
-### Building
-No build process required - this is a pure JavaScript extension.
+### Project Structure
+```
+src/                    # Extension source files (load this in Firefox!)
+├── manifest.json       # Extension manifest
+├── assets/            # Images, sounds, fonts
+│   ├── images/        # Icons and UI images
+│   ├── sounds/        # Alert sounds
+│   └── fonts/         # Custom fonts
+├── css/               # Stylesheets
+├── html/              # HTML pages (popup, options, etc.)
+├── js/                # JavaScript code
+│   ├── background/    # Background scripts
+│   ├── content/       # Content scripts
+│   ├── core/          # Core functionality
+│   ├── lib/           # Third-party libraries
+│   └── ui/            # UI-related scripts
+└── _locales/          # Internationalization files
+```
 
-XPI packages are automatically created by GitHub Actions on each release.
+### Building
+
+**Development:**
+```bash
+# Run with auto-reload
+pnpm run dev
+
+# Or manually load src/ folder in about:debugging
+```
+
+**Production:**
+```bash
+# Build XPI package
+pnpm run xpi
+
+# Output: dist/pushbullet-enhanced-*.xpi
+```
+
+XPI packages are also automatically created by GitHub Actions on each release.
 
 ### Testing
-1. Load the extension in Firefox as a temporary add-on
+1. Load the `src/` folder in Firefox as a temporary add-on (not the repository root!)
 2. Check the browser console for any errors
 3. Test with your Pushbullet account
 

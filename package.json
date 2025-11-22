@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "xpi": "pnpm dlx web-ext build --source-dir src --artifacts-dir dist --overwrite-dest --ignore-files META-INF .DS_Store && sh -c 'set -e; f=$(ls -1 dist/*.zip | tail -n1); mv \"$f\" \"${f%.zip}.xpi\"'"
+    "dev": "pnpm dlx web-ext run --source-dir src",
+    "build": "pnpm dlx web-ext build --source-dir src --artifacts-dir dist --overwrite-dest --ignore-files META-INF .DS_Store",
+    "xpi": "pnpm run build && sh -c 'set -e; f=$(ls -1 dist/*.zip | tail -n1); mv \"$f\" \"${f%.zip}.xpi\"'",
+    "lint": "pnpm dlx web-ext lint --source-dir src"
   }
 }
