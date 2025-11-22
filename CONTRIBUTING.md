@@ -37,46 +37,53 @@ docs: improve installation instructions
 
 ## Release Process
 
-### Automatic Release (Recommended)
+### Automatic Release (Default)
 
-1. **Bump Version** (Manual Trigger):
+**Every push to `main` automatically creates a new release!**
+
+1. **Make your changes** and commit to `main`
+2. **Push to GitHub**
+3. **Automatic actions**:
+   - If the current version tag exists, patch version is auto-incremented
+   - XPI package is created
+   - Changelog is generated from git commits
+   - GitHub release is created with the XPI attached
+   - Version is tagged
+
+**Example**: If current version is `367.0.0` and tag exists, it auto-bumps to `367.0.1`
+
+### Manual Version Bump (For Major/Minor Changes)
+
+For major or minor version changes, use the manual workflow:
+
+1. **Trigger Workflow**:
    - Go to GitHub Actions → "Version Bump" workflow
    - Click "Run workflow"
    - Select bump type: `patch`, `minor`, or `major`
-   - This will automatically update `manifest.json` and commit
+   - This updates `manifest.json` and commits
 
-2. **Automatic Build**:
-   - When the version bump is merged to `main`, the release workflow automatically:
-     - Creates an XPI package
-     - Generates a changelog from git commits
-     - Creates a GitHub release with the XPI attached
-     - Tags the release with the version number
+2. **Automatic Release**:
+   - The auto-release workflow triggers and creates the release
 
-### Manual Release
+### Manual Version Update
 
-If you prefer to bump the version manually:
+If you prefer to update the version yourself:
 
-1. **Update Version**:
+1. **Edit manifest.json**:
    ```bash
-   # Edit manifest.json and update the version field
+   # Update the version field
    # Follow semantic versioning: MAJOR.MINOR.PATCH
    ```
 
-2. **Update CHANGELOG.md**:
+2. **Commit and Push**:
    ```bash
-   # Add your changes under the [Unreleased] section
-   # Move them to a new version section
-   ```
-
-3. **Commit and Push**:
-   ```bash
-   git add manifest.json CHANGELOG.md
+   git add manifest.json
    git commit -m "chore: bump version to X.Y.Z"
    git push origin main
    ```
 
-4. **Automatic Build**:
-   - The GitHub Actions workflow will automatically create the release
+3. **Automatic Release**:
+   - The workflow creates the release automatically
 
 ## Semantic Versioning
 
@@ -113,21 +120,23 @@ Before releasing, ensure:
 
 ## GitHub Actions Workflows
 
-### Release Workflow (`release.yml`)
-- **Trigger**: Push to `main` branch
+### Auto Release Workflow (`auto-release.yml`)
+- **Trigger**: Push to `main` branch (automatic)
 - **Actions**:
-  - Checks if version tag already exists
-  - Creates XPI package if new version
+  - Checks if current version tag exists
+  - Auto-increments patch version if tag exists
+  - Creates XPI package
   - Generates changelog from git commits
   - Creates GitHub release with XPI
+  - Tags the release
 
 ### Version Bump Workflow (`version-bump.yml`)
 - **Trigger**: Manual (workflow_dispatch)
 - **Actions**:
-  - Calculates new version based on bump type
+  - Calculates new version based on bump type (patch/minor/major)
   - Updates `manifest.json`
   - Commits and pushes changes
-  - Triggers release workflow
+  - Triggers auto-release workflow
 
 ### Required Repository Settings
 

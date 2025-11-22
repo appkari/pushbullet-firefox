@@ -1,0 +1,139 @@
+name: Auto Version and Release
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - '.github/**'
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  auto-version-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Get current version
+        id: current_version
+        run: |
+          CURRENT=$(jq -r '.version' manifest.json)
+          echo "current=$CURRENT" >> $GITHUB_OUTPUT
+          echo "Current version: $CURRENT"
+      
+      - name: Check if version tag exists
+        id: check_tag
+        run: |
+          if git rev-parse "v${{ steps.current_version.outputs.current }}" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Tag v${{ steps.current_version.outputs.current }} already exists - will bump version"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Tag v${{ steps.current_version.outputs.current }} does not exist - will use current version"
+          fi
+      
+      - name: Auto-bump patch version
+        id: new_version
+        if: steps.check_tag.outputs.exists == 'true'
+        run: |
+          CURRENT="${{ steps.current_version.outputs.current }}"
+          IFS='.' read -r -a VERSION_PARTS <<< "$CURRENT"
+          MAJOR="${VERSION_PARTS[0]}"
+          MINOR="${VERSION_PARTS[1]}"
+          PATCH="${VERSION_PARTS[2]}"
+          
+          # Auto-increment patch version
+          PATCH=$((PATCH + 1))
+          
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "new=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "Auto-bumped version to: $NEW_VERSION"
+          
+          # Update manifest.json
+          jq --arg version "$NEW_VERSION" '.version = $version' manifest.json > manifest.json.tmp
+          mv manifest.json.tmp manifest.json
+          
+          # Commit the version bump
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add manifest.json
+          git commit -m "chore: auto-bump version to $NEW_VERSION [skip ci]"
+          git push
+      
+      - name: Set version for release
+        id: release_version
+        run: |
+          if [ "${{ steps.check_tag.outputs.exists }}" == "true" ]; then
+            echo "version=${{ steps.new_version.outputs.new }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${{ steps.current_version.outputs.current }}" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Create XPI package
+        run: |
+          # Create a clean build directory
+          mkdir -p build
+          
+          # Copy all necessary files (exclude git, github, and other dev files)
+          rsync -av --exclude='.git' \
+                    --exclude='.github' \
+                    --exclude='build' \
+                    --exclude='*.md' \
+                    --exclude='.DS_Store' \
+                    --exclude='node_modules' \
+                    . build/
+          
+          # Create XPI (which is just a ZIP file)
+          cd build
+          zip -r ../pushbullet-enhanced-v${{ steps.release_version.outputs.version }}.xpi .
+          cd ..
+          
+          # Verify the XPI was created
+          ls -lh pushbullet-enhanced-v${{ steps.release_version.outputs.version }}.xpi
+      
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Get the last tag
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          
+          if [ -z "$LAST_TAG" ]; then
+            echo "First release"
+            CHANGELOG="Initial release of Pushbullet Enhanced for Firefox"
+          else
+            echo "Generating changelog from $LAST_TAG to HEAD"
+            CHANGELOG=$(git log $LAST_TAG..HEAD --pretty=format:"- %s" --no-merges | grep -v "skip ci" || echo "- Bug fixes and improvements")
+          fi
+          
+          # Save changelog to file
+          echo "$CHANGELOG" > CHANGELOG.txt
+          cat CHANGELOG.txt
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.release_version.outputs.version }}
+          name: Pushbullet Enhanced v${{ steps.release_version.outputs.version }}
+          body_path: CHANGELOG.txt
+          files: |
+            pushbullet-enhanced-v${{ steps.release_version.outputs.version }}.xpi
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
