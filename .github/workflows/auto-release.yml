@@ -39,7 +39,7 @@ jobs:
       - name: Get current version
         id: current_version
         run: |
-          CURRENT=$(jq -r '.version' manifest.json)
+          CURRENT=$(jq -r '.version' src/manifest.json)
           echo "current=$CURRENT" >> $GITHUB_OUTPUT
           echo "Current version: $CURRENT"
       
@@ -72,13 +72,13 @@ jobs:
           echo "Auto-bumped version to: $NEW_VERSION"
           
           # Update manifest.json
-          jq --arg version "$NEW_VERSION" '.version = $version' manifest.json > manifest.json.tmp
-          mv manifest.json.tmp manifest.json
+          jq --arg version "$NEW_VERSION" '.version = $version' src/manifest.json > src/manifest.json.tmp
+          mv src/manifest.json.tmp src/manifest.json
           
           # Commit the version bump
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add manifest.json
+          git add src/manifest.json
           git commit -m "chore: auto-bump version to $NEW_VERSION [skip ci]"
           git push
       

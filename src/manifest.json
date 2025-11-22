@@ -1,0 +1,135 @@
+{
+  "manifest_version": 3,
+  "name": "Pushbullet Enhanced",
+  "version": "367.0.1",
+  "author": "Pushbullet (Enhanced Fork)",
+  "default_locale": "en",
+  "description": "Bringing together your devices, friends, and the things you care about.",
+  "icons": {
+    "16": "assets/images/icon_16.png",
+    "48": "assets/images/icon_48.png",
+    "128": "assets/images/icon_128.png"
+  },
+  "homepage_url": "https://www.pushbullet.com",
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "cookies",
+    "notifications",
+    "idle",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://*.pushbullet.com/*",
+    "http://*.pushbullet.com/*",
+    "http://localhost:20807/*"
+  ],
+  "optional_permissions": [
+    "tabs"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "action": {
+    "default_icon": {
+      "19": "assets/images/icon_19.png",
+      "38": "assets/images/icon_38.png"
+    },
+    "default_title": "Pushbullet",
+    "default_popup": "html/panel.html"
+  },
+  "options_page": "html/options.html",
+  "background": {
+    "scripts": [
+      "js/lib/forge.min.js",
+      "js/core/utils.js",
+      "js/core/pb.js",
+      "js/core/http.js",
+      "js/core/analytics.js",
+      "js/core/settings.js",
+      "js/core/notifier.js",
+      "js/core/listeners.js",
+      "js/core/end-to-end.js",
+      "js/background/alive.js",
+      "js/background/awake.js",
+      "js/core/connection.js",
+      "js/core/local.js",
+      "js/core/device.js",
+      "js/core/mirroring.js",
+      "js/core/files.js",
+      "js/core/pushing.js",
+      "js/core/chats.js",
+      "js/core/pushes.js",
+      "js/core/sms.js",
+      "js/core/context-menu.js",
+      "js/core/log-request.js",
+      "js/background/pong.js",
+      "js/core/keyboard-shortcuts.js",
+      "js/core/main.js",
+      "js/background/background-wrapper.js"
+    ]
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+P",
+        "mac": "Command+Shift+P"
+      },
+      "description": "Toggle Pushbullet popup"
+    },
+    "dismiss-most-recent-notification": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+K",
+        "mac": "Command+Shift+K"
+      },
+      "description": "Dismiss the most recent notification"
+    },
+    "instant-push-current-tab": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+X",
+        "mac": "Command+Shift+X"
+      },
+      "description": "Instantly push the current tab (configure in Options)"
+    },
+    "pop-out-panel": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+E",
+        "mac": "Command+Shift+E"
+      },
+      "description": "Pop out the push panel"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.pushbullet.com/*",
+        "http://*.pushbullet.com/*"
+      ],
+      "js": [
+        "js/content/content-script.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/images/*.png",
+        "assets/images/*.svg",
+        "assets/sounds/*.ogg",
+        "assets/fonts/*.woff",
+        "css/*.css",
+        "js/**/*.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "jid1-BYcQOfYfmBMd9A@jetpack"
+    }
+  }
+}
