@@ -113,7 +113,7 @@ var showMirror = function(mirror) {
 						options.buttons.push({
 								'title': 'Android: ' + action.label,
 								'short_title': action.label,
-								'iconUrl': '/assets/images/action_android.png',
+								'iconUrl': 'assets/images/action_android.png',
 								'onclick': function() {
 										dismissRemote(mirror, action.trigger_key)
 								}
@@ -124,7 +124,7 @@ var showMirror = function(mirror) {
 		if (mirror.conversation_iden || mirror.package_name == 'com.google.android.talk') {
 				options.buttons.push({
 						'title': chrome.i18n.getMessage('reply'),
-						'iconUrl': '/assets/images/action_reply.png',
+						'iconUrl': 'assets/images/action_reply.png',
 						'onclick': function() {
 								if (mirror.conversation_iden) {
 										openQuickReply(mirror)
@@ -139,7 +139,7 @@ var showMirror = function(mirror) {
 
 		options.buttons.push({
 				'title': chrome.i18n.getMessage('dismiss'),
-				'iconUrl': '/assets/images/action_cancel.png',
+				'iconUrl': 'assets/images/action_cancel.png',
 				'onclick': function() {
 						dismissRemote(mirror)
 				}
@@ -200,7 +200,7 @@ var muteButton = function(mirror) {
 
 				undo.buttons = [{
 						'title': chrome.i18n.getMessage('unmute_app', [mirror.application_name]),
-						'iconUrl': '/assets/images/action_undo.png',
+						'iconUrl': 'assets/images/action_undo.png',
 						'onclick': function() {
 								var data = {
 										'type': 'unmute',
@@ -233,7 +233,7 @@ var muteButton = function(mirror) {
 
 				undo.buttons.push({
 						'title': chrome.i18n.getMessage('done'),
-						'iconUrl': '/assets/images/action_tick.png',
+						'iconUrl': 'assets/images/action_tick.png',
 						'onclick': function() {
 						}
 				})
@@ -244,7 +244,7 @@ var muteButton = function(mirror) {
 		return {
 				'title': chrome.i18n.getMessage('mute_app', [mirror.application_name]),
 				'short_title': chrome.i18n.getMessage('mute'),
-				'iconUrl': '/assets/images/action_halt.png',
+				'iconUrl': 'assets/images/action_halt.png',
 				'onclick': function() {
 						mute()
 				}

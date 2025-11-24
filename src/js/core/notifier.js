@@ -172,7 +172,7 @@ var notify = function(options) {
 
 						options.buttons.unshift({
 								'title': title,
-								'iconUrl': '/assets/images/action_overflow.png',
+								'iconUrl': 'assets/images/action_overflow.png',
 								'onclick': function() {
 										openMore(options)
 								}
@@ -214,7 +214,10 @@ var notify = function(options) {
 
 		if (existing && pb.browser != 'firefox' && ((Date.now() - existing.created < timeOnScreen(existing)) || options.collapse)) {
 				pb.notifier.active[options.key] = options
-				chrome.notifications.update(options.key, spec, function() { })
+				// Update notification (not supported in Firefox)
+				if (chrome.notifications.update) {
+						chrome.notifications.update(options.key, spec, function() { })
+				}
 		} else {
 				var notificationCreated = function() {
 						pb.notifier.active[options.key] = options

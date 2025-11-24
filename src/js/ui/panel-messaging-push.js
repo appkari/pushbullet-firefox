@@ -445,7 +445,7 @@ var setUpLinkAttacher = function() {
 						linkTitle.value = tab.title || ''
 						linkUrl.value = tab.url || ''
 						linkUrl.tabId = tab.id
-						favicon.src = tab.favIconUrl || chrome.runtime.getURL('/assets/images/link.png')
+						favicon.src = tab.favIconUrl || chrome.runtime.getURL('assets/images/link.png')
 
 						updatePushSendIcon()
 						scrollPushChat()

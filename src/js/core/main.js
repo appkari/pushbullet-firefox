@@ -111,7 +111,7 @@ var showSignInNotification = function() {
 						'key': 'sign_in',
 						'title': chrome.i18n.getMessage('thanks_for_installing_title'),
 						'message': chrome.i18n.getMessage('thanks_for_installing_message'),
-						'iconUrl': '/assets/images/icon_48.png',
+						'iconUrl': 'assets/images/icon_48.png',
 						'onclick': function() {
 								pb.openTab('https://www.pushbullet.com/signin?source=' + pb.browser)
 						}

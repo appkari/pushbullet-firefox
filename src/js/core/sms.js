@@ -54,7 +54,7 @@ pb.addEventListener('signed_in', function(e) {
 						var options = {}
 						options.type = 'basic'
 						options.key = 'sms'
-						options.iconUrl = notification.image_url || '/assets/images/chip_person.png'
+						options.iconUrl = notification.image_url || 'assets/images/chip_person.png'
 						options.title = notification.title
 						options.message = notification.body
 						options.buttons = []
@@ -72,7 +72,7 @@ pb.addEventListener('signed_in', function(e) {
 
 						options.buttons.push({
 								'title': chrome.i18n.getMessage('reply'),
-								'iconUrl': '/assets/images/action_reply.png',
+								'iconUrl': 'assets/images/action_reply.png',
 								'onclick': function() {
 										openSmsWindow(device.iden, notification.thread_id)
 										sendSmsDismissal()
@@ -81,7 +81,7 @@ pb.addEventListener('signed_in', function(e) {
 
 						options.buttons.push({
 								'title': chrome.i18n.getMessage('dismiss'),
-								'iconUrl': '/assets/images/action_cancel.png',
+								'iconUrl': 'assets/images/action_cancel.png',
 								'onclick': function() {
 										sendSmsDismissal()
 								}

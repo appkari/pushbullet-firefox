@@ -156,7 +156,7 @@ var updateNotifications = function(groups) {
 						if (party && !party.tag && firstPush.url) {
 								options.buttons.push({
 										'title': chrome.i18n.getMessage('go_to_link'),
-										'iconUrl': '/assets/images/action_web.png',
+										'iconUrl': 'assets/images/action_web.png',
 										'onclick': function() {
 												pb.openTab(firstPush.url)
 										}
@@ -195,16 +195,16 @@ var updateNotifications = function(groups) {
 
 				if (!options.iconUrl) {
 						if (party && party.email) {
-								options.iconUrl = '/assets/images/chip_person.png'
+								options.iconUrl = 'assets/images/chip_person.png'
 						} else if (party && party.tag) {
-								options.iconUrl = '/assets/images/chip_channel.png'
+								options.iconUrl = 'assets/images/chip_channel.png'
 						} else if (firstPush.source_device_iden) {
 								var device = pb.local.devices[firstPush.source_device_iden]
 								if (device) {
 										options.iconUrl = utils.streamImageUrl(device)
 								}
 						} else {
-								options.iconUrl = '/assets/images/icon_48.png'
+								options.iconUrl = 'assets/images/icon_48.png'
 						}
 				}
 
@@ -267,7 +267,7 @@ var updateNotifications = function(groups) {
 								if (subscription.channel.iden == firstPush.channel_iden) {
 										options.buttons.push({
 												'title': chrome.i18n.getMessage('unsubscribe_from_channel', [subscription.channel.name]),
-												'iconUrl': '/assets/images/action_halt.png',
+												'iconUrl': 'assets/images/action_halt.png',
 												'onclick': function() {
 														pb.track({
 																'name': 'unsubscribe',
@@ -284,7 +284,7 @@ var updateNotifications = function(groups) {
 
 														undo.buttons = [{
 																'title': chrome.i18n.getMessage('undo'),
-																'iconUrl': '/assets/images/action_undo.png',
+																'iconUrl': 'assets/images/action_undo.png',
 																'onclick': function() {
 																		delete undo.onclose
 																}
@@ -292,7 +292,7 @@ var updateNotifications = function(groups) {
 
 														undo.buttons.push({
 																'title': chrome.i18n.getMessage('done'),
-																'iconUrl': '/assets/images/action_tick.png',
+																'iconUrl': 'assets/images/action_tick.png',
 																'onclick': function() {
 																}
 														})
@@ -322,7 +322,7 @@ var updateNotifications = function(groups) {
 
 				options.buttons.push({
 						'title': chrome.i18n.getMessage('dismiss'),
-						'iconUrl': '/assets/images/action_cancel.png',
+						'iconUrl': 'assets/images/action_cancel.png',
 						'onclick': function() {
 						}
 				})

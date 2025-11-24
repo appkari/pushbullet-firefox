@@ -121,9 +121,9 @@ pb.e2e.showErrorNotification = function(title, body) {
 				'title': chrome.i18n.getMessage(title),
 				'message': chrome.i18n.getMessage(body),
 				'contextMessage': 'Pushbullet',
-				'iconUrl': '/assets/images/lock.png',
+				'iconUrl': 'assets/images/lock.png',
 				'onclick': function() {
-						pb.openTab(chrome.extension.getURL('html/options.html#advanced'))
+						pb.openTab(chrome.runtime.getURL('html/options.html#advanced'))
 				}
 		}
 

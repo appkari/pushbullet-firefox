@@ -51,7 +51,7 @@ pb.openChat = function(mode, other) {
 
 var openChat = function(mode, other) {
     var spec = {
-        'url': chrome.extension.getURL('html/chat-window.html') + '?guid=' + utils.guid() + '&mode=' + mode + '#' + other,
+        'url': chrome.runtime.getURL('html/chat-window.html') + '?guid=' + utils.guid() + '&mode=' + mode + '#' + other,
         'width': 320,
         'height': 420
     }
