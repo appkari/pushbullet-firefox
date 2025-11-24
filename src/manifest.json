@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Pushbullet Enhanced",
-  "version": "367.0.7",
+  "version": "367.0.8",
   "author": "Pushbullet (Enhanced Fork)",
   "default_locale": "en",
   "description": "Bringing together your devices, friends, and the things you care about.",
@@ -131,7 +131,9 @@
     "gecko": {
       "id": "pushbullet-enhanced@sudhanshu",
       "data_collection_permissions": {
-        "required": ["none"]
+        "required": [
+          "none"
+        ]
       }
     }
   }
