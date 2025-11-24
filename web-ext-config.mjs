@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   sourceDir: './src',
   artifactsDir: './dist',
   ignoreFiles: ['.DS_Store', 'META-INF'],

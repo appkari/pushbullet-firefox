@@ -129,7 +129,10 @@
   ],
   "browser_specific_settings": {
     "gecko": {
-      "id": "jid1-BYcQOfYfmBMd9A@jetpack"
+      "id": "pushbullet-enhanced@sudhanshu",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   }
 }
